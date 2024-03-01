@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://jv2cymfpmu4x"]
+[gd_scene load_steps=3 format=3 uid="uid://jv2cymfpmu4x"]
 
 [ext_resource type="Texture2D" uid="uid://luoynl1qov1h" path="res://IMG_0104.JPG" id="1_ew7ed"]
+[ext_resource type="Texture2D" uid="uid://deypv8q3ljt3r" path="res://image/IMG_0104.JPG" id="2_op3ma"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -12,4 +13,4 @@ texture = ExtResource("1_ew7ed")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Node2D"]
 position = Vector2(1152, 914)
-texture = ExtResource("1_ew7ed")
+texture = ExtResource("2_op3ma")
