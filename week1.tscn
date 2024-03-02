@@ -8,9 +8,11 @@
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D"]
-position = Vector2(2558, 848)
+position = Vector2(2366, 924)
+scale = Vector2(-3.61538, 0.967374)
 texture = ExtResource("1_ew7ed")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Node2D"]
-position = Vector2(1152, 914)
+position = Vector2(600, 946)
+scale = Vector2(3.1542, 0.641268)
 texture = ExtResource("2_op3ma")
