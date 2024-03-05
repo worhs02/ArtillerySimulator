@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://jv2cymfpmu4x"]
+[gd_scene load_steps=16 format=3 uid="uid://jv2cymfpmu4x"]
 
 [ext_resource type="Texture2D" uid="uid://luoynl1qov1h" path="res://IMG_0104.JPG" id="1_ew7ed"]
 [ext_resource type="Texture2D" uid="uid://deypv8q3ljt3r" path="res://image/IMG_0104.JPG" id="2_op3ma"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d0v8j"]
+albedo_color = Color(0.992157, 0, 0.427451, 0.427451)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wqn74"]
 
@@ -16,7 +19,33 @@ size = Vector3(30, 1, 1)
 size = Vector3(29, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_5tikx"]
-size = Vector3(20, 1, 20)
+size = Vector3(10, 1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5e8y"]
+albedo_color = Color(0.592157, 0.262745, 0.0509804, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aoq8u"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jf2yf"]
+lightmap_size_hint = Vector2i(9, 13)
+material = SubResource("ShaderMaterial_aoq8u")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i6j1u"]
+albedo_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_v5upq"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_md2r3"]
+material = SubResource("ORMMaterial3D_v5upq")
+top_radius = 0.1
+bottom_radius = 0.2
+height = 0.7
+radial_segments = 32
+rings = 2
+
+[sub_resource type="TextMesh" id="TextMesh_go1at"]
+text = "CANON"
 
 [node name="Node3D" type="Node3D"]
 
@@ -33,7 +62,8 @@ scale = Vector2(3.1542, 0.641268)
 texture = ExtResource("2_op3ma")
 
 [node name="buildingA" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 2, 7.35, -18)
+transform = Transform3D(-0.127279, 0, -0.127279, 0, 0.18, 0, 0.127279, 0, -0.127279, -0.479735, 2.97426, -17.8113)
+material_override = SubResource("StandardMaterial3D_d0v8j")
 mesh = SubResource("BoxMesh_ko12c")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="buildingA"]
@@ -69,5 +99,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
 mesh = SubResource("BoxMesh_5tikx")
 
 [node name="Plat2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, 28)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.2, 0, 14)
 mesh = SubResource("BoxMesh_5tikx")
+
+[node name="buildingB" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -25.2356, 0.75153, 14.6296)
+material_override = SubResource("StandardMaterial3D_g5e8y")
+mesh = SubResource("BoxMesh_jf2yf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="buildingB"]
+transform = Transform3D(0.67352, 0.6014, 0.429757, -0.735934, 0.599933, 0.313819, -0.0690947, -0.527636, 0.846657, 0.170919, 0.222143, -0.182642)
+material_override = SubResource("StandardMaterial3D_i6j1u")
+mesh = SubResource("CylinderMesh_md2r3")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="buildingB"]
+transform = Transform3D(0.573577, 0.819153, 0, 0.0713938, -0.0499905, 0.996195, 0.816036, -0.571394, -0.0871558, -0.0473213, 0.275988, 0.0124378)
+mesh = SubResource("TextMesh_go1at")
