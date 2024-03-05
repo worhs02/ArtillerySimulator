@@ -1,3 +1,7 @@
+MeshInstance3D
+DirectionalLight3D
+Node
+Node3D
 Sprite2D
 Node2D
 Sprite3D
