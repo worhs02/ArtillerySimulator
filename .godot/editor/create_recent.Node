@@ -1,3 +1,10 @@
+Button
+LineEdit
+Line2D
+Label
+ColorRect
+Control
+Node
 MeshInstance3D
 CollisionShape3D
 RigidBody3D
@@ -5,10 +12,4 @@ ShaderGlobalsOverride
 Area3D
 Node3D
 Panel
-Control
-LineEdit
 Node2D
-Label
-TouchScreenButton
-Button
-Camera3D
