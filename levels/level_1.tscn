@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://duneduoo6h03d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_p6bl0"]
+font_size = 50
+
+[node name="level_1" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 244.0
+offset_top = 198.0
+offset_right = 963.0
+offset_bottom = 400.0
+size_flags_horizontal = 0
+text = "Enter coordinate!"
+label_settings = SubResource("LabelSettings_p6bl0")
+horizontal_alignment = 1
+vertical_alignment = 1

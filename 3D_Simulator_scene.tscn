@@ -1,10 +1,20 @@
-[gd_scene load_steps=16 format=3 uid="uid://jv2cymfpmu4x"]
+[gd_scene load_steps=17 format=3 uid="uid://b1ggead7bix8x"]
 
-[ext_resource type="Texture2D" uid="uid://luoynl1qov1h" path="res://IMG_0104.JPG" id="1_ew7ed"]
-[ext_resource type="Texture2D" uid="uid://deypv8q3ljt3r" path="res://image/IMG_0104.JPG" id="2_op3ma"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8807v"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_b8opr"]
+sky_material = SubResource("ProceduralSkyMaterial_8807v")
+
+[sub_resource type="Environment" id="Environment_wnabj"]
+background_mode = 2
+sky = SubResource("Sky_b8opr")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d0v8j"]
-albedo_color = Color(0.992157, 0, 0.427451, 0.427451)
+albedo_color = Color(0.458824, 0.533333, 0.576471, 0.427451)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wqn74"]
 
@@ -17,9 +27,6 @@ size = Vector3(30, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_yolcb"]
 size = Vector3(29, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_5tikx"]
-size = Vector3(10, 1, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5e8y"]
 albedo_color = Color(0.592157, 0.262745, 0.0509804, 1)
@@ -45,73 +52,70 @@ radial_segments = 32
 rings = 2
 
 [sub_resource type="TextMesh" id="TextMesh_go1at"]
-text = "CANON"
+text = "CANNON"
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hip85"]
+size = Vector2(30, 8)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wnabj")
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
-position = Vector2(2366, 924)
-scale = Vector2(-3.61538, 0.967374)
-texture = ExtResource("1_ew7ed")
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.71073, -0.162417, 0.684459, -0.0197307, 0.967997, 0.250186, -0.703189, -0.191319, 0.684779, 0.00727063, 5.30631, 0.174855)
 
-[node name="Sprite2D2" type="Sprite2D" parent="Node2D"]
-position = Vector2(600, 946)
-scale = Vector2(3.1542, 0.641268)
-texture = ExtResource("2_op3ma")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.00910417, -0.482207, 0.87601, 0.955656, 0.253676, 0.14957, -0.294346, 0.838526, 0.458514, 0, 0, 0)
+shadow_enabled = true
 
-[node name="buildingA" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.127279, 0, -0.127279, 0, 0.18, 0, 0.127279, 0, -0.127279, -0.479735, 2.97426, -17.8113)
+[node name="Gachon_Building" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.127279, 0, -0.127279, 0, 0.18, 0, 0.127279, 0, -0.127279, -0.225177, 2.61426, -17.5567)
 material_override = SubResource("StandardMaterial3D_d0v8j")
 mesh = SubResource("BoxMesh_ko12c")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="buildingA"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gachon_Building"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 15.5, 14.7, 0)
 mesh = SubResource("BoxMesh_cgvoj")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="buildingA"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Gachon_Building"]
 transform = Transform3D(4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, 0, 8.74228e-08, -1, 15.6, 0.2, 14.5)
 mesh = SubResource("BoxMesh_cgvoj")
 skeleton = NodePath("../MeshInstance3D")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="buildingA"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Gachon_Building"]
 transform = Transform3D(-4.37114e-08, 1, -8.74227e-08, -1, -4.37114e-08, 8.74228e-08, 8.74228e-08, 8.74227e-08, 1, 15.5, 0.0999985, -15)
 mesh = SubResource("BoxMesh_cgvoj")
 skeleton = NodePath("../MeshInstance3D")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="buildingA"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Gachon_Building"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 15.3, 0, -13.9)
 mesh = SubResource("BoxMesh_yolcb")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="buildingA"]
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Gachon_Building"]
 transform = Transform3D(4.37114e-08, 8.74228e-08, -1, 0, -1, -8.74228e-08, -1, 0, -4.37114e-08, 15.4, 13.6, 0)
 mesh = SubResource("BoxMesh_yolcb")
 skeleton = NodePath("../MeshInstance3D4")
 
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="buildingA"]
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Gachon_Building"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 15.3, -0.599998, 13.3)
 mesh = SubResource("BoxMesh_yolcb")
 skeleton = NodePath("../MeshInstance3D4")
 
-[node name="Plat" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
-mesh = SubResource("BoxMesh_5tikx")
-
-[node name="Plat2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.2, 0, 14)
-mesh = SubResource("BoxMesh_5tikx")
-
-[node name="buildingB" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -25.2356, 0.75153, 14.6296)
+[node name="Cannon" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.996195, 0, 0.0871556, 0, 1, 0, -0.0871556, 0, 0.996195, -17.6193, 0.25153, 2.78197)
 material_override = SubResource("StandardMaterial3D_g5e8y")
 mesh = SubResource("BoxMesh_jf2yf")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="buildingB"]
+[node name="Fire" type="MeshInstance3D" parent="Cannon"]
 transform = Transform3D(0.67352, 0.6014, 0.429757, -0.735934, 0.599933, 0.313819, -0.0690947, -0.527636, 0.846657, 0.170919, 0.222143, -0.182642)
 material_override = SubResource("StandardMaterial3D_i6j1u")
 mesh = SubResource("CylinderMesh_md2r3")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="buildingB"]
+[node name="Name" type="MeshInstance3D" parent="Cannon"]
 transform = Transform3D(0.573577, 0.819153, 0, 0.0713938, -0.0499905, 0.996195, 0.816036, -0.571394, -0.0871558, -0.0473213, 0.275988, 0.0124378)
 mesh = SubResource("TextMesh_go1at")
+
+[node name="Plat" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.752061, 0, 0.766044, 0, 1, 0, -0.896272, 0, 0.642788, -8.1736, 0, -8.13539)
+mesh = SubResource("PlaneMesh_hip85")

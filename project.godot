@@ -11,8 +11,17 @@ config_version=5
 [application]
 
 config/name="ArtillerySimulator"
+run/main_scene="res://2D_Start_scene.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+LoadManager="*res://autoloads/LoadManager.gd"
+
+[editor]
+
+movie_writer/movie_file="C:/ICT/ArtillerySimulator/Movie.avi"
 
 [filesystem]
 
