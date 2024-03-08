@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ArtillerySimulator"
-run/main_scene="res://2D_Start_scene.tscn"
+run/main_scene="res://scene/2D_Start_scene.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 

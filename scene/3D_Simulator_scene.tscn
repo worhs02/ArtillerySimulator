@@ -1,4 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://b1ggead7bix8x"]
+[gd_scene load_steps=20 format=3 uid="uid://b1ggead7bix8x"]
+
+[ext_resource type="Script" path="res://script/gunTrigger.gd" id="1_nwds0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8807v"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -45,11 +47,9 @@ albedo_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_md2r3"]
 material = SubResource("ORMMaterial3D_v5upq")
-top_radius = 0.1
-bottom_radius = 0.2
-height = 0.7
-radial_segments = 32
-rings = 2
+height = 0.5
+radial_segments = 100
+rings = 100
 
 [sub_resource type="TextMesh" id="TextMesh_go1at"]
 text = "CANNON"
@@ -57,7 +57,12 @@ text = "CANNON"
 [sub_resource type="PlaneMesh" id="PlaneMesh_hip85"]
 size = Vector2(30, 8)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_lbbrr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_t07hv"]
+
 [node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.257176, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wnabj")
@@ -119,3 +124,36 @@ mesh = SubResource("TextMesh_go1at")
 [node name="Plat" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.752061, 0, 0.766044, 0, 1, 0, -0.896272, 0, 0.642788, -8.1736, 0, -8.13539)
 mesh = SubResource("PlaneMesh_hip85")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 494.0
+offset_right = 441.0
+offset_bottom = 650.0
+
+[node name="LineEdit" type="LineEdit" parent="Control/Panel"]
+layout_mode = 0
+offset_top = 109.0
+offset_right = 430.0
+offset_bottom = 155.0
+caret_blink = true
+caret_blink_interval = 0.4
+caret_force_displayed = true
+text_direction = 1
+script = ExtResource("1_nwds0")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.70944, 0.465557, 3.39442)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_lbbrr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("SphereMesh_t07hv")

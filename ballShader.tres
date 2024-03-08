@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bvllu1joekcus"]
+
+[ext_resource type="Shader" path="res://ballShader.gdshader" id="1_lcp3a"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_lcp3a")
+shader_parameter/ColorUniform = Vector4(1, 0.843, 0, 1)
+shader_parameter/HowShiny = 2.0
+shader_parameter/Roughness = 0.2
