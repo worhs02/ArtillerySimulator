@@ -1,3 +1,4 @@
+Node
 CanvasLayer
 CanvasModulate
 Button
@@ -8,7 +9,6 @@ Line2D
 Label
 ColorRect
 Control
-Node
 MeshInstance3D
 CollisionShape3D
 RigidBody3D
