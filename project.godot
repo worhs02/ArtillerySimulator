@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="ArtillerySimulator"
-run/main_scene="res://simulator.tscn"
+run/main_scene="res://scene/Input.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-LoadManager="*res://autoloads/LoadManager.gd"
+GlobalInput="*res://scene/Input.tscn"
 
 [editor]
 

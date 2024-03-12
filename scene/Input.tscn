@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsho0qnnsydva"]
 
-[ext_resource type="Script" path="res://script/Input.gd" id="1_8jbqd"]
+[ext_resource type="Script" path="res://script/Input.gd" id="1_01if6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2gtyx"]
 font_size = 70
@@ -12,7 +12,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_8jbqd")
+script = ExtResource("1_01if6")
 
 [node name="start" type="ColorRect" parent="Input"]
 layout_mode = 0
@@ -69,3 +69,5 @@ offset_right = 1049.0
 offset_bottom = 563.0
 action_mode = 0
 text = "완료"
+
+[connection signal="pressed" from="Input/start/finish" to="Input" method="_on_finish_pressed"]
