@@ -18,7 +18,6 @@ func _ready():
 func _on_button_pressed():
 	var x = line_editX.text
 	var y = line_editY.text
-	emit_signal("value_changed", x, y)
 	print(x)
 	print(y)
 	var get_coordinate_instance = get_coordinate.new()
