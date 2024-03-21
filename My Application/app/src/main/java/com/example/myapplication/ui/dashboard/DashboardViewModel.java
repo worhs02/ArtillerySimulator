@@ -11,6 +11,7 @@ public class DashboardViewModel extends ViewModel {
     public DashboardViewModel() {
         mText = new MutableLiveData<>();
         //지도 위쪽 글씨 추가
+
     }
 
     public LiveData<String> getText() {
