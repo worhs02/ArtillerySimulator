@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private TextView textView;
     private ImageView bombImageView;
+    private Button resetButton;
 
     private LatLng seoulCityHall;
     private LatLng receivedLatLng;
@@ -38,7 +40,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
     private Handler handler = new Handler();
     private final int UPDATE_INTERVAL = 1000; // 1초
 
-    @SuppressLint({"MissingInflatedId", "ResourceType"})
+    @SuppressLint({"MissingInflatedId", "ResourceType", "WrongViewCast"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
@@ -52,11 +54,22 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
         // ImageView 생성 및 설정
         bombImageView = root.findViewById(R.id.bomb_image_view);
 
+        // 리셋 버튼 생성 및 설정
+        resetButton = root.findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 리셋 버튼 클릭 시 위도와 경도 입력 화면으로 이동
+                goToInputFragment();
+            }
+        });
+
         // 네이버 지도 설정
         NaverMapSdk.getInstance(requireContext()).setClient(
                 new NaverMapSdk.NaverCloudPlatformClient("y0wyj0cbep"));
 
         // MapView에 비동기 콜백 등록
+        mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
         // TextView 설정
@@ -97,53 +110,61 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
 
                 double distanceInMeters = seoulCityHall.distanceTo(receivedLatLng);
                 int timeInSeconds = (int) (distanceInMeters / 1000); // 소수점 제거 후 정수로 변환
-                textView.setText("폭파까지 남은 시간: 약 " + timeInSeconds + " 초");
-
-                // 회전 각도 계산
-                double angle = Math.toDegrees(Math.atan2(receivedLatLng.longitude - seoulCityHall.longitude,
-                        receivedLatLng.latitude - seoulCityHall.latitude));
-
-                // 미사일 이미지 회전
-                bombImageView.setRotation((float) angle - 40);
-
-
-                // 이동 거리 계산
-                double stepX = (receivedLatLng.latitude - seoulCityHall.latitude) / timeInSeconds;
-                double stepY = (receivedLatLng.longitude - seoulCityHall.longitude) / timeInSeconds;
 
                 // 폭탄 위치를 주기적으로 업데이트하기 위한 Runnable 객체 생성
                 Runnable updateBombPositionRunnable = new Runnable() {
                     private final long startTime = System.currentTimeMillis();
-                    private final long duration = 300000; // 5분 (단위: 밀리초)
+                    private final long duration = timeInSeconds * 1000; // (단위: 밀리초)
                     private LatLng previousLatLng = seoulCityHall;
+                    private Projection projection = naverMap.getProjection();
 
                     @Override
                     public void run() {
                         long elapsedTime = System.currentTimeMillis() - startTime;
-                        if (                        elapsedTime >= duration) {
+                        if (elapsedTime > duration) {
                             // 시간이 다 되었을 때 초기화
                             resetBomb();
+                            textView.setText("폭파되었습니다");
                         } else {
                             // 현재까지의 경과 시간에 따라 폭탄의 위치를 업데이트
                             double ratio = (double) elapsedTime / duration;
                             LatLng currentLatLng = new LatLng(
-                                    previousLatLng.latitude + stepX * ratio,
-                                    previousLatLng.longitude + stepY * ratio
+                                    seoulCityHall.latitude + (receivedLatLng.latitude - seoulCityHall.latitude) * ratio,
+                                    seoulCityHall.longitude + (receivedLatLng.longitude - seoulCityHall.longitude) * ratio
                             );
 
+                            // 남은 거리 계산
+                            double remainingDistance = currentLatLng.distanceTo(receivedLatLng);
+                            // 예상 속도 계산
+                            double currentSpeed = remainingDistance / ((double) (duration - elapsedTime) / 1000); // (단위: m/s)
+                            // 예상 도착 시간 계산
+                            int estimatedTimeToArrive = (int) (remainingDistance / currentSpeed); // (단위: 초)
+
+                            // 남은 시간 표시
+                            textView.setText("폭파까지 남은 시간: 약 " + estimatedTimeToArrive + " 초");
+
                             // 폭탄 이미지의 좌표를 지도 상의 좌표로 변환
-                            Projection projection = naverMap.getProjection();
                             PointF newPosition = projection.toScreenLocation(currentLatLng);
 
-                            // 새로운 위치 설정
-                            bombImageView.setX(newPosition.x);
-                            bombImageView.setY(newPosition.y);
+                            // 폭탄 이미지의 크기 고려하여 위치 설정
+                            float bombImageCenterX = newPosition.x;
+                            float bombImageBottomY = newPosition.y;
+                            float offsetX = bombImageView.getWidth() / 2;
+                            float offsetY = bombImageView.getHeight();
 
-                            // 이전 위치 업데이트
-                            previousLatLng = currentLatLng;
+                            // 새로운 위치 설정
+                            bombImageView.setX(bombImageCenterX - offsetX);
+                            bombImageView.setY(bombImageBottomY -offsetY);
+
+                            // 이미지 회전
+                            double angle = Math.toDegrees(Math.atan2(currentLatLng.latitude - previousLatLng.latitude, currentLatLng.longitude - previousLatLng.longitude));
+                            bombImageView.setRotation((float) -angle + 40); // 회전 적용
 
                             // 1초 뒤에 다시 호출하여 위치 업데이트
                             handler.postDelayed(this, UPDATE_INTERVAL);
+
+                            // 이전 위치 업데이트
+                            previousLatLng = currentLatLng;
                         }
                     }
                 };
@@ -166,6 +187,12 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
         });
         // 핸들러 중지
         handler.removeCallbacksAndMessages(null);
+    }
+
+    private void goToInputFragment() {
+        // 현재 띄워져 있는 Fragment를 제거하는 함수
+        requireActivity().getSupportFragmentManager().popBackStack();
+        resetBomb();
     }
 }
 

@@ -19,24 +19,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="256dp">
 
         <EditText
             android:id="@+id/editTextLatitude"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_bg"
             android:hint="위도를 입력하세요"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal" />
 
         <EditText
             android:id="@+id/editTextLongitude"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_bg"
             android:hint="경도를 입력하세요"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/button_get_location"
@@ -45,7 +53,35 @@
             android:layout_marginBottom="16dp"
             android:text="위치 가져오기" />
 
+        <ImageView
+            android:id="@+id/soldierView"
+            android:layout_width="288dp"
+            android:layout_height="299dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="50dp"
+            android:src="@drawable/soldier" />
+
+
         <!-- 필요한 경우 버튼 등의 UI 요소를 추가할 수 있습니다 -->
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/soldierView"-->
+<!--        android:layout_width="269dp"-->
+<!--        android:layout_height="363dp"-->
+<!--        android:src="@drawable/soldier" />-->
+<!--</FrameLayout>-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

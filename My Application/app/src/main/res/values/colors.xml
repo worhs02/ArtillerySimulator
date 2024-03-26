@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="navy">#0077CC</color> <!-- 군청색 -->
+    <color name="navy_dark">#005299</color> <!-- 군청색의 짙은 변형 -->
+    <color name="military_green">#4B5320</color> <!-- 군대 초록색 -->
 </resources>

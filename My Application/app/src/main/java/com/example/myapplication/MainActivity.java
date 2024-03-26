@@ -1,80 +1,102 @@
-package com.example.myapplication;
+    package com.example.myapplication;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log; // Log를 사용하기 위해 추가
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText; // EditText를 사용하기 위해 추가
-import androidx.appcompat.app.AppCompatActivity;
-import com.example.myapplication.databinding.ActivityMainBinding;
-import com.example.myapplication.ui.dashboard.DashboardFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+    import android.app.AlertDialog;
+    import android.content.DialogInterface;
+    import android.os.Bundle;
+    import android.view.View;
+    import android.widget.Button;
+    import android.widget.EditText;
 
+    import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+    import com.example.myapplication.databinding.ActivityMainBinding;
+    import com.example.myapplication.ui.dashboard.DashboardFragment;
 
-    private ActivityMainBinding binding;
-    private Button buttonGetLocation;
+    public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        private ActivityMainBinding binding;
+        private Button buttonGetLocation;
+        private EditText editTextLatitude;
+        private EditText editTextLongitude;
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            getSupportActionBar().setTitle("Artillery Simulator");
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+            binding = ActivityMainBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
 
-        // 버튼 가져오기
-        buttonGetLocation = findViewById(R.id.button_get_location);
+            // EditText 인스턴스 찾기
+            editTextLatitude = findViewById(R.id.editTextLatitude);
+            editTextLongitude = findViewById(R.id.editTextLongitude);
 
-        // 버튼 클릭 이벤트 리스너 설정
-        buttonGetLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 버튼이 클릭되었을 때 실행되는 코드 작성
-                getLocation();
+            // 버튼 가져오기
+            buttonGetLocation = findViewById(R.id.button_get_location);
+
+            // 버튼 클릭 이벤트 리스너 설정
+            buttonGetLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String latitudeString = editTextLatitude.getText().toString();
+                    String longitudeString = editTextLongitude.getText().toString();
+
+                    boolean isLatitudeEmpty = latitudeString.isEmpty();
+                    boolean isLongitudeEmpty = longitudeString.isEmpty();
+
+                    if (isLatitudeEmpty || isLongitudeEmpty) {
+                        showEmptyFieldsAlert(isLatitudeEmpty, isLongitudeEmpty);
+                    } else {
+                        addDashboardFragment();
+                    }
+                }
+            });
+
+        }
+
+        // EditText가 비어 있을 때 경고를 표시하는 메서드
+        private void showEmptyFieldsAlert(boolean isLatitudeEmpty, boolean isLongitudeEmpty) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            if (isLatitudeEmpty && isLongitudeEmpty) {
+                builder.setMessage("위도와 경도를 입력해주세요.");
+            } else if (isLatitudeEmpty) {
+                builder.setMessage("위도를 입력해주세요.");
+            } else if (isLongitudeEmpty) {
+                builder.setMessage("경도를 입력해주세요.");
             }
-        });
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+
+        // addDashboardFragment() 메서드 정의
+        private void addDashboardFragment() {
+            String latitudeString = editTextLatitude.getText().toString();
+            String longitudeString = editTextLongitude.getText().toString();
+
+            // 위도와 경도 값을 번들에 담아 DashboardFragment에 전달
+            Bundle args = new Bundle();
+            args.putString("latitude", latitudeString);
+            args.putString("longitude", longitudeString);
+
+            // DashboardFragment 인스턴스 생성 및 번들 설정
+            DashboardFragment fragment = new DashboardFragment();
+            fragment.setArguments(args);
+
+            // DashboardFragment를 화면에 추가
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, fragment)
+                    .addToBackStack(null) // 백 스택에 추가하여 뒤로 가기를 지원합니다.
+                    .commit();
+        }
+
     }
-
-    // 버튼 클릭 시 실행될 메서드
-    private void getLocation() {
-        // EditText에서 위도와 경도 값 가져오기
-        EditText editTextLatitude = findViewById(R.id.editTextLatitude);
-        EditText editTextLongitude = findViewById(R.id.editTextLongitude);
-
-        String latitudeString = editTextLatitude.getText().toString();
-        String longitudeString = editTextLongitude.getText().toString();
-
-        // DashboardFragment 인스턴스 생성
-        DashboardFragment fragment = new DashboardFragment();
-
-        // 위도와 경도를 DashboardFragment로 전달하기 위해 Bundle에 담기
-        Bundle args = new Bundle();
-        args.putString("latitude", latitudeString);
-        args.putString("longitude", longitudeString);
-
-        // DashboardFragment에 Bundle 설정
-        fragment.setArguments(args);
-
-        // FragmentTransaction을 사용하여 Fragment를 추가 또는 교체
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
-
-
-
-}

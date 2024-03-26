@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:shape="rectangle"
+    tools:ignore="ExtraText">
+    <solid android:color="#CCCCCC" /> <!-- EditText의 배경 색상을 지정합니다. -->
+    <corners android:radius="4dp" /> <!-- EditText의 테두리를 둥글게 만듭니다. -->
+    <stroke
+        android:width="1dp"
+        android:color="#E0E0E0" /> <!-- EditText의 테두리 색상을 지정합니다. -->
+</shape>
