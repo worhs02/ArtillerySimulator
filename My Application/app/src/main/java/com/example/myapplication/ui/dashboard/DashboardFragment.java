@@ -34,7 +34,7 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
     private ImageView bombImageView;
     private Button resetButton;
 
-    private LatLng seoulCityHall;
+    private LatLng White_Skull_Boot_Camp;
     private LatLng receivedLatLng;
 
     private Handler handler = new Handler();
@@ -84,8 +84,8 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
         // 이곳에서 지도 초기화 및 설정 작업을 수행할 수 있습니다.
 
         // 서울 시청의 좌표를 설정하여 지도를 이동시킴
-        seoulCityHall = new LatLng(37.5662952, 126.9779451);
-        naverMap.moveCamera(CameraUpdate.scrollTo(seoulCityHall));
+        White_Skull_Boot_Camp = new LatLng(38.196781, 127.292882);
+        naverMap.moveCamera(CameraUpdate.scrollTo(White_Skull_Boot_Camp));
 
         // 마커 추가 및 선 그리기
         Bundle args = getArguments();
@@ -103,19 +103,19 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
                 receivedMarker.setMap(naverMap);
 
                 PolylineOverlay polyline = new PolylineOverlay();
-                polyline.setCoords(Arrays.asList(seoulCityHall, receivedLatLng));
+                polyline.setCoords(Arrays.asList(White_Skull_Boot_Camp, receivedLatLng));
                 polyline.setWidth(10);
                 polyline.setColor(0xFF0000FF);
                 polyline.setMap(naverMap);
 
-                double distanceInMeters = seoulCityHall.distanceTo(receivedLatLng);
-                int timeInSeconds = (int) (distanceInMeters / 1000); // 소수점 제거 후 정수로 변환
+                double distanceInMeters = White_Skull_Boot_Camp.distanceTo(receivedLatLng);
+                int timeInSeconds = (int) (distanceInMeters / 980); // 거리/속도
 
                 // 폭탄 위치를 주기적으로 업데이트하기 위한 Runnable 객체 생성
                 Runnable updateBombPositionRunnable = new Runnable() {
                     private final long startTime = System.currentTimeMillis();
                     private final long duration = timeInSeconds * 1000; // (단위: 밀리초)
-                    private LatLng previousLatLng = seoulCityHall;
+                    private LatLng previousLatLng = White_Skull_Boot_Camp;
                     private Projection projection = naverMap.getProjection();
 
                     @Override
@@ -124,13 +124,13 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
                         if (elapsedTime > duration) {
                             // 시간이 다 되었을 때 초기화
                             resetBomb();
-                            textView.setText("폭파되었습니다");
+                            textView.setText("폭파 되었습니다");
                         } else {
                             // 현재까지의 경과 시간에 따라 폭탄의 위치를 업데이트
                             double ratio = (double) elapsedTime / duration;
                             LatLng currentLatLng = new LatLng(
-                                    seoulCityHall.latitude + (receivedLatLng.latitude - seoulCityHall.latitude) * ratio,
-                                    seoulCityHall.longitude + (receivedLatLng.longitude - seoulCityHall.longitude) * ratio
+                                    White_Skull_Boot_Camp.latitude + (receivedLatLng.latitude - White_Skull_Boot_Camp.latitude) * ratio,
+                                    White_Skull_Boot_Camp.longitude + (receivedLatLng.longitude - White_Skull_Boot_Camp.longitude) * ratio
                             );
 
                             // 남은 거리 계산
